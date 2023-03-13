@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model ediciones {
+  idedicion     Int      @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  anio          Int      @db.Year
+  nombre        String   @db.VarChar(100)
+  slogan        String?  @db.VarChar(300)
+  fechaInicio   DateTime @db.DateTime(0)
+  fechaFin      DateTime @db.DateTime(0)
+  creation_date DateTime @default(now()) @db.DateTime(0)
+  update_date   DateTime @default(now()) @db.DateTime(0)
+  status        Int
+}
+
+model patrocinadores {
+  idpatrocinador Int      @id @default(autoincrement())
+  idedicion      Int
+  nombre         String   @db.VarChar(1000)
+  web            String   @db.VarChar(1000)
+  facebook       String?  @db.VarChar(1000)
+  instagram      String?  @db.VarChar(1000)
+  linkedin       String?  @db.VarChar(1000)
+  imagenBlob     Bytes?   @db.Blob
+  imagenUrl      String?  @db.VarChar(1000)
+  comentarios    String?  @db.Text
+  status         Int?
+  orden          Int?
+  creation_date  DateTime @default(now()) @db.DateTime(0)
+  update_date    DateTime @default(now()) @db.DateTime(0)
+}
+
+model puestos {
+  id            Int      @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  nombre        String?  @db.Text
+  descripcion   String?  @db.Text
+  creation_date DateTime @default(now()) @db.Timestamp(0)
+  update_date   DateTime @default(now()) @db.Timestamp(0)
+  status        Int?
+}
+
+model usuarios {
+  idusuario     Int      @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  nombres       String   @db.VarChar(500)
+  apellidos     String   @db.VarChar(500)
+  email         String   @db.VarChar(500)
+  contrasena    String   @db.VarChar(500)
+  idpuesto      Int
+  creation_date DateTime @default(now()) @db.Timestamp(0)
+  update_date   DateTime @default(now()) @db.Timestamp(0)
+  status        Int
+}
